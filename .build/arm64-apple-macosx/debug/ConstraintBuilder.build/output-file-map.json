@@ -1,0 +1,23 @@
+{
+  "": {
+    "swift-dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/master.swiftdeps"
+  },
+  "/Users/unpxre/Developer/UIInitializerKit/Sources/ConstraintBuilder/Constraint.swift": {
+    "dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/Constraint.d",
+    "object": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/Constraint.swift.o",
+    "swiftmodule": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/Constraint~partial.swiftmodule",
+    "swift-dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/Constraint.swiftdeps"
+  },
+  "/Users/unpxre/Developer/UIInitializerKit/Sources/ConstraintBuilder/ConstraintsResultBuilder.swift": {
+    "dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/ConstraintsResultBuilder.d",
+    "object": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/ConstraintsResultBuilder.swift.o",
+    "swiftmodule": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/ConstraintsResultBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/ConstraintsResultBuilder.swiftdeps"
+  },
+  "/Users/unpxre/Developer/UIInitializerKit/Sources/ConstraintBuilder/UIView+Extension.swift": {
+    "dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/UIView+Extension.d",
+    "object": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/UIView+Extension.swift.o",
+    "swiftmodule": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/UIView+Extension~partial.swiftmodule",
+    "swift-dependencies": "/Users/unpxre/Developer/UIInitializerKit/.build/arm64-apple-macosx/debug/ConstraintBuilder.build/UIView+Extension.swiftdeps"
+  }
+}
