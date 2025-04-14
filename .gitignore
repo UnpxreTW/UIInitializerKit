@@ -71,3 +71,9 @@ Tuist/Signing/*
 !Tuist/Signing/*.mobileprovision
 !Tuist/Signing/*.encrypted
 
+### 工作區目錄 ###
+
+.build.xcresult
+.build
+.nvim/
+buildServer.json
