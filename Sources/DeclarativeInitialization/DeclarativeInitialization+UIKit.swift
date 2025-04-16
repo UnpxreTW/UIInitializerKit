@@ -2,7 +2,7 @@
 //  DeclarativeInitialization+UIKit.swift
 //  DeclarativeInitialization
 //
-//  Copyright © 2024 UnpxreTW. All rights reserved.
+//  Copyright © 2025 UnpxreTW. All rights reserved.
 //
 
 import UIKit
@@ -23,8 +23,8 @@ extension DeclarativeInitialization where Self: UIView {
 extension DeclarativeInitialization where Self == UIButton {
 
 	/// `UIButton` 的指定客製化按鈕初始化器
-	public init(configureHandler: (Self) -> Void) {
-		self.init(type: .custom)
+	public init(type: UIButton.ButtonType = .custom, configureHandler: (Self) -> Void) {
+		self.init(type: type)
 		configureHandler(self)
 	}
 }
