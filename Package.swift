@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.1
 
 import PackageDescription
 
@@ -9,8 +9,8 @@ let package = Package(
 	],
 	targets: [
 		.target(name: "ConstraintBuilder")
-        
-        ,
-        .target(name: "DeclarativeInitialization")
+
+		,
+		.target(name: "DeclarativeInitialization")
 	]
 )
