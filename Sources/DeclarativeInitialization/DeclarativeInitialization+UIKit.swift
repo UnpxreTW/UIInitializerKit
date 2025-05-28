@@ -21,7 +21,7 @@ extension DeclarativeInitialization where Self: UIView {
 
 	public init(configureHandlers: ((Self) -> Void)...) {
 		self.init()
-		for let configureHandler in configureHandlers {
+		for configureHandler in configureHandlers {
 			configureHandler(self)
 		}
 	}
