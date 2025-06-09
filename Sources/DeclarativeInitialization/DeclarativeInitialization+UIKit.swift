@@ -18,6 +18,13 @@ extension DeclarativeInitialization where Self: UIView {
 		self.init()
 		configureHandler(self)
 	}
+
+	public init(configureHandlers: ((Self) -> Void)...) {
+		self.init()
+		for configureHandler in configureHandlers {
+			configureHandler(self)
+		}
+	}
 }
 
 extension DeclarativeInitialization where Self == UIButton {
