@@ -27,15 +27,6 @@ extension DeclarativeInitialization where Self: UIView {
 	}
 }
 
-extension DeclarativeInitialization where Self == UIButton {
-
-	/// `UIButton` 的指定客製化按鈕初始化器
-	public init(type: UIButton.ButtonType = .custom, configureHandler: (Self) -> Void) {
-		self.init(type: type)
-		configureHandler(self)
-	}
-}
-
 extension DeclarativeInitialization where Self == UIStackView {
 
 	/// `UIStackView` 的指定客製化按鈕初始化器
