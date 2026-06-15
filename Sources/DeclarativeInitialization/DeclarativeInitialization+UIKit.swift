@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK: - UIView + Declarative
+// MARK: - + DeclarativeInitialization
 
 extension UIView: DeclarativeInitialization {}
 

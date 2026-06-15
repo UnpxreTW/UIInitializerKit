@@ -61,12 +61,12 @@ public func equal(
 ///   - constant: 常數，預設為 0
 /// - Returns: 建立約束用的閉包，參考的視圖取決於呼叫視圖
 @MainActor
-public func equal<Anchor, Axis>(
+public func equal<Anchor: NSLayoutAnchor<Axis>, Axis>(
 	_ from: KeyPath<UIView, Anchor>,
 	to view: UIView,
 	_ toAnchor: KeyPath<UIView, Anchor>,
 	constant: CGFloat = 0
-) -> Constraint where Anchor: NSLayoutAnchor<Axis> {
+) -> Constraint {
 	{ $0[keyPath: from].constraint(
 		equalTo: view[keyPath: toAnchor],
 		constant: constant
@@ -82,12 +82,12 @@ public func equal<Anchor, Axis>(
 ///   - ratio: 約束點間的比例
 /// - Returns: 建立約束用的閉包，參考的視圖取決於呼叫視圖
 @MainActor
-public func equal<LayoutDimension>(
+public func equal<LayoutDimension: NSLayoutDimension>(
 	_ keyPath: KeyPath<UIView, LayoutDimension>,
 	to view: UIView,
 	_ anchor: KeyPath<UIView, LayoutDimension>,
 	ratio value: CGFloat
-) -> Constraint where LayoutDimension: NSLayoutDimension {
+) -> Constraint {
 	{ $0[keyPath: keyPath].constraint(
 		equalTo: view[keyPath: anchor],
 		multiplier: value
@@ -103,12 +103,12 @@ public func equal<LayoutDimension>(
 ///   - lessOrEqual: 常數
 /// - Returns: 建立約束用的閉包，參考的視圖取決於呼叫點
 @MainActor
-public func equal<Anchor, Axis>(
+public func equal<Anchor: NSLayoutAnchor<Axis>, Axis>(
 	_ keyPath: KeyPath<UIView, Anchor>,
 	to view: UIView,
 	_ toAnchor: KeyPath<UIView, Anchor>,
 	lessOrEqual: CGFloat
-) -> Constraint where Anchor: NSLayoutAnchor<Axis> {
+) -> Constraint {
 	{ $0[keyPath: keyPath].constraint(
 		lessThanOrEqualTo: view[keyPath: toAnchor],
 		constant: lessOrEqual
@@ -124,12 +124,12 @@ public func equal<Anchor, Axis>(
 ///   - greaterOrEqual: 常數
 /// - Returns: 建立約束用的閉包，參考的視圖取決於呼叫視圖
 @MainActor
-public func equal<Anchor, Axis>(
+public func equal<Anchor: NSLayoutAnchor<Axis>, Axis>(
 	_ keyPath: KeyPath<UIView, Anchor>,
 	to view: UIView,
 	_ toAnchor: KeyPath<UIView, Anchor>,
 	greaterOrEqual: CGFloat
-) -> Constraint where Anchor: NSLayoutAnchor<Axis> {
+) -> Constraint {
 	{ $0[keyPath: keyPath].constraint(
 		greaterThanOrEqualTo: view[keyPath: toAnchor],
 		constant: greaterOrEqual
