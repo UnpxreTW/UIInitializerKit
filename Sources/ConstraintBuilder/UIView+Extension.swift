@@ -1,9 +1,10 @@
 //
-//  UIView+Extension.swift
 //  ConstraintBuilder
 //
-//  Copyright © 2024 UnpxreTW. All rights reserved.
+//  Copyright © 2026 Unpxre (GitHub: UnpxreTW)
+//  Licensed under the Apache License 2.0. See LICENSE for details.
 //
+//  SPDX-License-Identifier: Apache-2.0
 
 import UIKit
 
