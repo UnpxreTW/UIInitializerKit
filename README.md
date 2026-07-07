@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2026 Unpxre (GitHub: UnpxreTW) -->
+<!-- SPDX-License-Identifier: Apache-2.0 -->
+
 # UIInitializerKit
 
 以宣告式風格初始化 UIKit 元件的 Swift Package——閉包初始化器搭配 `@resultBuilder` 約束 DSL。
