@@ -45,6 +45,16 @@ view.addSubview(titleLabel) {
 
 Swift 6.0+、UIKit（CI 以 Xcode 26.3 iOS Simulator 建置）
 
+## 開發
+
+純 Swift Package，UIKit 依賴僅 iOS SDK 可用（非 macOS），建置走 iOS Simulator：
+
+```shell
+xcodebuild build -scheme UIInitializerKit -destination 'generic/platform=iOS Simulator'
+```
+
+CI（GitHub Actions）跑同一條指令，見 `.github/workflows/build.yml`。
+
 ## 授權
 
 Apache-2.0（REUSE 合規）
