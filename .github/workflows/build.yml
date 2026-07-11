@@ -21,4 +21,6 @@ jobs:
         with:
           xcode-version: '26.3'
       - name: xcodebuild（iOS Simulator）
-        run: xcodebuild build -scheme UIInitializerKit -destination 'generic/platform=iOS Simulator'
+        # -skipPackagePluginValidation：SwiftStyleLint 為 build tool plugin，
+        # 非互動環境無法點選信任、需跳過驗證才能執行。
+        run: xcodebuild build -scheme UIInitializerKit -destination 'generic/platform=iOS Simulator' -skipPackagePluginValidation
