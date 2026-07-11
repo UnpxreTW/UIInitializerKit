@@ -2,15 +2,22 @@
 
 import PackageDescription
 
-let package = Package(
+let package: Package = .init(
 	name: "UIInitializerKit",
 	products: [
 		.library(name: "UIInitializerKit", targets: ["ConstraintBuilder", "DeclarativeInitialization"])
 	],
+	dependencies: [
+		.package(url: "https://github.com/UnpxreTW/SwiftStyleKit.git", from: "2.0.1"),
+	],
 	targets: [
-		.target(name: "ConstraintBuilder")
-        
-        ,
-        .target(name: "DeclarativeInitialization")
+		.target(
+			name: "ConstraintBuilder",
+			plugins: [.plugin(name: "SwiftStyleLint", package: "SwiftStyleKit")]
+		),
+		.target(
+			name: "DeclarativeInitialization",
+			plugins: [.plugin(name: "SwiftStyleLint", package: "SwiftStyleKit")]
+		),
 	]
 )
