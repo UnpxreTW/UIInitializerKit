@@ -10,10 +10,6 @@
 @resultBuilder
 public enum ConstraintsResultBuilder {
 
-	public static func buildBlock(_ component: Constraint...) -> [Constraint] {
-		component
-	}
-
 	public static func buildArray(_ components: [Constraint]) -> [Constraint] {
 		components
 	}
@@ -34,16 +30,6 @@ public enum ConstraintsResultBuilder {
 	/// 使建構器接受 `if-else` 或是 `switch` 狀態處理
 	public static func buildEither(second component: [Constraint]) -> [Constraint] {
 		component
-	}
-
-	/// 使建構器接受 `if-else` 或是 `switch` 狀態處理
-	public static func buildEither(first component: @escaping Constraint) -> [Constraint] {
-		[component]
-	}
-
-	/// 使建構器接受 `if-else` 或是 `switch` 狀態處理
-	public static func buildEither(second component: @escaping Constraint) -> [Constraint] {
-		[component]
 	}
 
 	/// 將單個佈局宣告轉換為陣列進行處理的方法
