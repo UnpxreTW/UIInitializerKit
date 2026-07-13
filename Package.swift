@@ -4,6 +4,7 @@ import PackageDescription
 
 let package: Package = .init(
 	name: "UIInitializerKit",
+	platforms: [.iOS(.v14)],
 	products: [
 		.library(name: "UIInitializerKit", targets: ["ConstraintBuilder", "DeclarativeInitialization"])
 	],
