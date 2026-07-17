@@ -20,5 +20,10 @@ let package: Package = .init(
 			name: "DeclarativeInitialization",
 			plugins: [.plugin(name: "SwiftStyleLint", package: "SwiftStyleKit")]
 		),
+		.testTarget(
+			name: "ConstraintBuilderTests",
+			dependencies: ["ConstraintBuilder"],
+			plugins: [.plugin(name: "SwiftStyleLint", package: "SwiftStyleKit")]
+		),
 	]
 )
