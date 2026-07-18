@@ -6,7 +6,7 @@
 //
 //  SPDX-License-Identifier: Apache-2.0
 
-import XCTest
+import Testing
 import UIKit
 import ConstraintBuilder
 
@@ -20,43 +20,49 @@ import ConstraintBuilder
 /// 但 `for-in` 迴圈每一輪由 `buildBlock` 產出的是 `[Constraint]`，整個迴圈收攏後應為
 /// `[[Constraint]]`——型別不符，`for-in` 目前完全無法通過編譯。待該簽名修復後再補上對應測試。
 @MainActor
-final class ConstraintsResultBuilderTests: XCTestCase {
+private final class ConstraintsResultBuilderTests {
 
 	// MARK: - 單條件（builder 內僅一條約束宣告，不含任何控制流）
 
-	func test_singleStatement() {
-		let view = UIView()
+	/// 單條件：builder 內僅一條約束宣告，回傳單一約束。
+	@Test
+	func `single statement adds one constraint`() {
+		let view: UIView = .init()
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			equal(\.widthAnchor, to: 100)
 		}
 
-		XCTAssertEqual(constraints.count, 1)
-		XCTAssertEqual(constraints.first?.constant, 100)
+		#expect(constraints.count == 1)
+		#expect(constraints.first?.constant == 100)
 	}
 
 	// MARK: - 多條件（builder 內多條約束宣告依序疊加，不含任何控制流）
 
-	func test_multipleStatements() {
-		let view = UIView()
+	/// 多條件：builder 內多條約束宣告依序疊加。
+	@Test
+	func `multiple statements accumulate in order`() {
+		let view: UIView = .init()
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			equal(\.widthAnchor, to: 100)
 			equal(\.heightAnchor, to: 50)
 		}
 
-		XCTAssertEqual(constraints.count, 2)
-		XCTAssertEqual(constraints[0].constant, 100)
-		XCTAssertEqual(constraints[1].constant, 50)
+		#expect(constraints.count == 2)
+		#expect(constraints[0].constant == 100)
+		#expect(constraints[1].constant == 50)
 	}
 
 	// MARK: - if-else
 
-	func test_ifElse_trueBranch() {
-		let view = UIView()
-		let useWideLayout = true
+	/// if-else：條件成立時走真分支。
+	@Test
+	func `if else picks true branch`() {
+		let view: UIView = .init()
+		let useWideLayout: Bool = true
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			if useWideLayout {
 				equal(\.widthAnchor, to: 200)
 			} else {
@@ -64,15 +70,17 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 			}
 		}
 
-		XCTAssertEqual(constraints.count, 1)
-		XCTAssertEqual(constraints.first?.constant, 200)
+		#expect(constraints.count == 1)
+		#expect(constraints.first?.constant == 200)
 	}
 
-	func test_ifElse_falseBranch() {
-		let view = UIView()
-		let useWideLayout = false
+	/// if-else：條件不成立時走假分支。
+	@Test
+	func `if else picks false branch`() {
+		let view: UIView = .init()
+		let useWideLayout: Bool = false
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			if useWideLayout {
 				equal(\.widthAnchor, to: 200)
 			} else {
@@ -80,8 +88,8 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 			}
 		}
 
-		XCTAssertEqual(constraints.count, 1)
-		XCTAssertEqual(constraints.first?.constant, 60)
+		#expect(constraints.count == 1)
+		#expect(constraints.first?.constant == 60)
 	}
 
 	// MARK: - switch
@@ -93,8 +101,8 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 	}
 
 	private func widthConstraint(for size: Size) -> NSLayoutConstraint? {
-		let view = UIView()
-		let constraints = view.addConstraints {
+		let view: UIView = .init()
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			switch size {
 			case .small:
 				equal(\.widthAnchor, to: 10)
@@ -107,48 +115,54 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 		return constraints.first
 	}
 
-	func test_switch_allCases() {
-		XCTAssertEqual(widthConstraint(for: .small)?.constant, 10)
-		XCTAssertEqual(widthConstraint(for: .medium)?.constant, 20)
-		XCTAssertEqual(widthConstraint(for: .large)?.constant, 30)
+	/// switch：多 case 依序解析出對應約束。
+	@Test
+	func `switch resolves each case`() {
+		#expect(widthConstraint(for: .small)?.constant == 10)
+		#expect(widthConstraint(for: .medium)?.constant == 20)
+		#expect(widthConstraint(for: .large)?.constant == 30)
 	}
 
 	// MARK: - if（無 else）
 
-	func test_ifWithoutElse_conditionTrue() {
-		let view = UIView()
-		let addExtraConstraint = true
+	/// if（無 else）：條件成立時附加約束。
+	@Test
+	func `if without else adds constraint when true`() {
+		let view: UIView = .init()
+		let addExtraConstraint: Bool = true
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			equal(\.widthAnchor, to: 100)
 			if addExtraConstraint {
 				equal(\.heightAnchor, to: 40)
 			}
 		}
 
-		XCTAssertEqual(constraints.count, 2)
-		XCTAssertEqual(constraints[1].constant, 40)
+		#expect(constraints.count == 2)
+		#expect(constraints[1].constant == 40)
 	}
 
-	func test_ifWithoutElse_conditionFalse() {
-		let view = UIView()
-		let addExtraConstraint = false
+	/// if（無 else）：條件不成立時不附加約束。
+	@Test
+	func `if without else adds no constraint when false`() {
+		let view: UIView = .init()
+		let addExtraConstraint: Bool = false
 
-		let constraints = view.addConstraints {
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			equal(\.widthAnchor, to: 100)
 			if addExtraConstraint {
 				equal(\.heightAnchor, to: 40)
 			}
 		}
 
-		XCTAssertEqual(constraints.count, 1)
+		#expect(constraints.count == 1)
 	}
 
 	// MARK: - 巢狀混寫：if 內 switch
 
 	private func widthConstraint(active: Bool, mode: Size) -> NSLayoutConstraint? {
-		let view = UIView()
-		let constraints = view.addConstraints {
+		let view: UIView = .init()
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			if active {
 				switch mode {
 				case .small:
@@ -165,17 +179,19 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 		return constraints.first
 	}
 
-	func test_nested_switchInsideIf() {
-		XCTAssertEqual(widthConstraint(active: true, mode: .small)?.constant, 11)
-		XCTAssertEqual(widthConstraint(active: true, mode: .medium)?.constant, 22)
-		XCTAssertEqual(widthConstraint(active: false, mode: .large)?.constant, 0)
+	/// 巢狀混寫：if 內 switch 正確解析。
+	@Test
+	func `nested switch inside if resolves correctly`() {
+		#expect(widthConstraint(active: true, mode: .small)?.constant == 11)
+		#expect(widthConstraint(active: true, mode: .medium)?.constant == 22)
+		#expect(widthConstraint(active: false, mode: .large)?.constant == 0)
 	}
 
 	// MARK: - 巢狀混寫：switch 內 if
 
 	private func widthConstraint(mode: Size, flag: Bool) -> NSLayoutConstraint? {
-		let view = UIView()
-		let constraints = view.addConstraints {
+		let view: UIView = .init()
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
 			switch mode {
 			case .small:
 				if flag {
@@ -190,9 +206,11 @@ final class ConstraintsResultBuilderTests: XCTestCase {
 		return constraints.first
 	}
 
-	func test_nested_ifInsideSwitch() {
-		XCTAssertEqual(widthConstraint(mode: .small, flag: true)?.constant, 111)
-		XCTAssertEqual(widthConstraint(mode: .small, flag: false)?.constant, 222)
-		XCTAssertEqual(widthConstraint(mode: .medium, flag: true)?.constant, 333)
+	/// 巢狀混寫：switch 內 if 正確解析。
+	@Test
+	func `nested if inside switch resolves correctly`() {
+		#expect(widthConstraint(mode: .small, flag: true)?.constant == 111)
+		#expect(widthConstraint(mode: .small, flag: false)?.constant == 222)
+		#expect(widthConstraint(mode: .medium, flag: true)?.constant == 333)
 	}
 }
