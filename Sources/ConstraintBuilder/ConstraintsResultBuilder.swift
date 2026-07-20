@@ -14,8 +14,10 @@ public enum ConstraintsResultBuilder {
 		component
 	}
 
-	public static func buildArray(_ components: [Constraint]) -> [Constraint] {
-		components
+	/// 使建構器接受 `for-in` 迴圈：每輪迴圈由 `buildBlock` 產出 `[Constraint]`，
+	/// 整個迴圈收攏後型別為 `[[Constraint]]`，此處攤平為單層 `[Constraint]`
+	public static func buildArray(_ components: [[Constraint]]) -> [Constraint] {
+		components.flatMap(\.self)
 	}
 
 	public static func buildBlock(_ components: [Constraint]...) -> [Constraint] {

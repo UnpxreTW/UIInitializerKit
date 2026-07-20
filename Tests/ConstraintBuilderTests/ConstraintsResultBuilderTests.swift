@@ -15,10 +15,6 @@ import ConstraintBuilder
 /// 目的是把 DSL 目前實際支援的控制流組合釘成 characterization baseline（記錄現行行為，
 /// 不是驗證「正確」行為）——之後若要調整 `ConstraintsResultBuilder` 的重載組成，這份測試
 /// 應該仍然全綠；若某個組合的行為被無意改動，這裡會先紅。
-///
-/// `for-in` 迴圈刻意不在本檔涵蓋範圍：目前 `buildArray` 的參數型別收 `[Constraint]`，
-/// 但 `for-in` 迴圈每一輪由 `buildBlock` 產出的是 `[Constraint]`，整個迴圈收攏後應為
-/// `[[Constraint]]`——型別不符，`for-in` 目前完全無法通過編譯。待該簽名修復後再補上對應測試。
 @MainActor
 private final class ConstraintsResultBuilderTests {
 
@@ -212,5 +208,59 @@ private final class ConstraintsResultBuilderTests {
 		#expect(widthConstraint(mode: .small, flag: true)?.constant == 111)
 		#expect(widthConstraint(mode: .small, flag: false)?.constant == 222)
 		#expect(widthConstraint(mode: .medium, flag: true)?.constant == 333)
+	}
+
+	// MARK: - for-in
+
+	/// for-in：每輪迴圈各自產生一條約束，依序疊加。
+	@Test
+	func `for in loop accumulates one constraint per iteration`() {
+		let view: UIView = .init()
+		let widths: [CGFloat] = [10, 20, 30]
+
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
+			for width in widths {
+				equal(\.widthAnchor, to: width)
+			}
+		}
+
+		#expect(constraints.count == 3)
+		#expect(constraints.map(\.constant) == widths)
+	}
+
+	/// for-in：與迴圈前後的其他敘述句混寫時，攤平順序維持一致。
+	@Test
+	func `for in loop combines with surrounding statements`() {
+		let view: UIView = .init()
+		let heights: [CGFloat] = [5, 15]
+
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
+			equal(\.widthAnchor, to: 100)
+			for height in heights {
+				equal(\.heightAnchor, to: height)
+			}
+			equal(\.widthAnchor, to: 200)
+		}
+
+		#expect(constraints.count == 4)
+		#expect(constraints[0].constant == 100)
+		#expect(constraints[1].constant == 5)
+		#expect(constraints[2].constant == 15)
+		#expect(constraints[3].constant == 200)
+	}
+
+	/// for-in：空陣列不產生任何約束。
+	@Test
+	func `for in loop over empty collection adds no constraints`() {
+		let view: UIView = .init()
+		let widths: [CGFloat] = []
+
+		let constraints: [NSLayoutConstraint] = view.addConstraints {
+			for width in widths {
+				equal(\.widthAnchor, to: width)
+			}
+		}
+
+		#expect(constraints.isEmpty)
 	}
 }
