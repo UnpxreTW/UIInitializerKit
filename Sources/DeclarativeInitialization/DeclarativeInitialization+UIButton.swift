@@ -24,3 +24,21 @@ extension DeclarativeInitialization where Self == UIButton {
 		}
 	}
 }
+
+@available(iOS 15.0, *)
+extension DeclarativeInitialization where Self == UIButton {
+
+	/// `UIButton` 使用 `UIButton.Configuration` 的指定客製化按鈕初始化器
+	public init(configuration: UIButton.Configuration, configureHandler: (Self) -> Void) {
+		self.init(configuration: configuration)
+		configureHandler(self)
+	}
+
+	/// `UIButton` 使用 `UIButton.Configuration` 的指定客製化按鈕初始化器
+	public init(configuration: UIButton.Configuration, configureHandlers: ((Self) -> Void)...) {
+		self.init(configuration: configuration)
+		for configureHandler in configureHandlers {
+			configureHandler(self)
+		}
+	}
+}
