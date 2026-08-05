@@ -61,6 +61,61 @@ private final class UIViewAddSubviewTests {
 		#expect(activeConstraints.contains { $0.constant == 60 })
 	}
 
+	/// 回傳的約束就是實際被啟用的那幾條——數量與 builder 宣告數相符、皆 `isActive`，
+	/// 且與子視圖身上的約束是同一批物件（呼叫端拿到的是 handle，不是複本）。
+	///
+	/// 此處用的是自參考的尺寸約束，故安裝點就在子視圖身上；跨視圖約束會安裝到共同祖先，
+	/// 見 `addSubview withConstraints returns cross view constraints installed on the ancestor`。
+	@Test
+	func `addSubview withConstraints returns the activated constraints`() {
+		let superview: UIView = .init()
+		let subview: UIView = .init()
+
+		let constraints: [NSLayoutConstraint] = superview.addSubview(subview) {
+			equal(\.widthAnchor, to: 100)
+			equal(\.heightAnchor, to: 44)
+		}
+
+		// 先算成 Bool 再交給 #expect：`allSatisfy` 是 rethrows，直接寫進巨集會展開成需要 try 的形式。
+		let allActive: Bool = constraints.allSatisfy(\.isActive)
+		let allAttachedToSubview: Bool = constraints.allSatisfy { subview.constraints.contains($0) }
+		#expect(constraints.count == 2)
+		#expect(allActive)
+		#expect(allAttachedToSubview)
+	}
+
+	/// 跨視圖約束由 Auto Layout 安裝到共同祖先（此處＝父視圖）而非子視圖身上，
+	/// 但回傳值一樣拿得到——而這正是呼叫端最需要 handle 的情形（改 offset 做動畫）。
+	@Test
+	func `addSubview withConstraints returns cross view constraints installed on the ancestor`() {
+		let superview: UIView = .init()
+		let subview: UIView = .init()
+
+		let constraints: [NSLayoutConstraint] = superview.addSubview(subview) {
+			equal(\.topAnchor, to: superview, \.topAnchor, constant: 16)
+		}
+
+		#expect(constraints.count == 1)
+		#expect(constraints.first?.isActive == true)
+		#expect(superview.constraints.contains { $0 === constraints.first })
+		#expect(subview.constraints.isEmpty)
+	}
+
+	/// 回傳值可直接當 handle 使用：改 `constant` 立即反映在子視圖身上那條約束，
+	/// 不必退回「先 `addSubview` 再 `addConstraints`」兩步寫法才拿得到。
+	@Test
+	func `returned constraints stay mutable handles onto the live layout`() {
+		let superview: UIView = .init()
+		let subview: UIView = .init()
+
+		let constraints: [NSLayoutConstraint] = superview.addSubview(subview) {
+			equal(\.widthAnchor, to: 100)
+		}
+		constraints.first?.constant = 250
+
+		#expect(subview.constraints.contains { $0.constant == 250 })
+	}
+
 	/// builder 支援控制流（`if`）：確認 `addSubview(_:withConstraints:)` 有把 builder 正確轉發給
 	/// `addConstraints`，非重複測試 `ConstraintsResultBuilder` 控制流本身。
 	@Test
