@@ -47,12 +47,22 @@ extension UIView {
 		return constraint
 	}
 
-	/// 新增視圖的同時配置視圖的約束
+	/// 新增視圖的同時配置視圖的約束，並回傳已啟用的 `[NSLayoutConstraint]`
+	///
+	/// 回傳值可直接留著當 handle 用（事後改 `constant` 做動畫、切 `isActive` 做響應式佈局），
+	/// 不必為了拿到約束而退回「先 `addSubview(_:)` 再 `addConstraints(_:)`」的兩步寫法
+	///
+	/// - Parameters:
+	///   - view: 要加入視圖階層的子視圖
+	///   - constraintsBuilder: 建立約束建構器
+	/// - Returns: 建立並啟用完成的 `[NSLayoutConstraint]`
+	/// - note: 使用此方法時會自動將**子視圖**的 `translatesAutoresizingMaskIntoConstraints` 設為 `false`
+	@discardableResult
 	public func addSubview(
 		_ view: some UIView,
 		@ConstraintsResultBuilder withConstraints constraintsBuilder: () -> [Constraint]
-	) {
+	) -> [NSLayoutConstraint] {
 		addSubview(view)
-		view.addConstraints(constraintsBuilder())
+		return view.addConstraints(constraintsBuilder())
 	}
 }
