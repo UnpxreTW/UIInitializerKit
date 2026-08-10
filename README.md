@@ -8,7 +8,7 @@
 ## 特色
 
 - **DeclarativeInitialization**：任何 `UIView` 子類都能用設定閉包直接初始化；`UIButton`（可帶 `ButtonType` 或 iOS 15+ `Configuration`）、`UIStackView`、`UITableView`、`UIVisualEffectView`（可帶 `effect`）另有專用參數版
-- **ConstraintBuilder**：`@resultBuilder` 約束 DSL——`addSubview(_:withConstraints:)` 加入子視圖同時掛約束、自動處理 `translatesAutoresizingMaskIntoConstraints` 與 activate，支援 `if` / `for` / `switch` 組約束
+- **ConstraintBuilder**：`@resultBuilder` 約束 DSL——`addSubview(_:withConstraints:)` 加入子視圖同時掛約束、自動處理 `translatesAutoresizingMaskIntoConstraints` 與 activate，支援 `if` / `for` / `switch` 組約束；回傳已啟用的 `[NSLayoutConstraint]`，要事後改 `constant` 或切 `isActive` 直接留著用（不需要就忽略，不會有警告）
 
 ## 使用
 
