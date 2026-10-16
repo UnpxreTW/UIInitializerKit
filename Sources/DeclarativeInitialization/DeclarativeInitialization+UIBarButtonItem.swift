@@ -19,6 +19,9 @@ extension UIBarButtonItem: DeclarativeInitialization {}
 extension DeclarativeInitialization where Self == UIBarButtonItem {
 
 	/// `UIBarButtonItem` 的指定客製化列按鈕初始化器
+	///
+	/// - Note: UIKit 不會保留傳入的 `primaryAction`／`menu` 實例：之後讀取這兩個屬性，取得的是
+	///   `identifier` 相同的另一個實例，因此不能用 `===` 比對；需要辨識時請比對 `identifier`。
 	public init(
 		title: String? = nil,
 		image: UIImage? = nil,
@@ -31,6 +34,9 @@ extension DeclarativeInitialization where Self == UIBarButtonItem {
 	}
 
 	/// `UIBarButtonItem` 的指定客製化列按鈕初始化器
+	///
+	/// - Note: UIKit 不會保留傳入的 `primaryAction`／`menu` 實例：之後讀取這兩個屬性，取得的是
+	///   `identifier` 相同的另一個實例，因此不能用 `===` 比對；需要辨識時請比對 `identifier`。
 	public init(
 		title: String? = nil,
 		image: UIImage? = nil,
@@ -45,6 +51,9 @@ extension DeclarativeInitialization where Self == UIBarButtonItem {
 	}
 
 	/// `UIBarButtonItem` 使用系統項目的指定客製化列按鈕初始化器
+	///
+	/// - Note: UIKit 不會保留傳入的 `primaryAction`／`menu` 實例：之後讀取這兩個屬性，取得的是
+	///   `identifier` 相同的另一個實例，因此不能用 `===` 比對；需要辨識時請比對 `identifier`。
 	public init(
 		systemItem: UIBarButtonItem.SystemItem,
 		primaryAction: UIAction? = nil,
@@ -56,6 +65,9 @@ extension DeclarativeInitialization where Self == UIBarButtonItem {
 	}
 
 	/// `UIBarButtonItem` 使用系統項目的指定客製化列按鈕初始化器
+	///
+	/// - Note: UIKit 不會保留傳入的 `primaryAction`／`menu` 實例：之後讀取這兩個屬性，取得的是
+	///   `identifier` 相同的另一個實例，因此不能用 `===` 比對；需要辨識時請比對 `identifier`。
 	public init(
 		systemItem: UIBarButtonItem.SystemItem,
 		primaryAction: UIAction? = nil,
