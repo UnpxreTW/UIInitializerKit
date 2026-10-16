@@ -190,6 +190,31 @@ private final class DeclarativeInitializationTests {
 		#expect(barButtonItem.tag == 11)
 	}
 
+	/// 對照組：直接使用原生 `init(title:image:primaryAction:menu:)`（不經本套件），取回的
+	/// `primaryAction`／`menu` 也與傳入者非同一實例，`image` 則是同一實例。
+	///
+	/// 證明上方測試改比對 identifier 的原因是 UIKit 本身的行為，而非本套件初始化器造成；
+	/// 若 UIKit 日後改為保留同一實例，此測試會失敗以提醒回頭檢視上方測試的比對方式。
+	@Test
+	func `native barButtonItem init does not keep primaryAction and menu instances`() {
+		let image: UIImage = .init()
+		let primaryAction: UIAction = .init(title: "Primary", identifier: .init("primary")) { _ in }
+		let menu: UIMenu = .init(title: "Menu", identifier: .init("menu"), children: [])
+
+		let barButtonItem: UIBarButtonItem = .init(
+			title: "Done",
+			image: image,
+			primaryAction: primaryAction,
+			menu: menu
+		)
+
+		#expect(barButtonItem.image === image)
+		#expect(barButtonItem.primaryAction !== primaryAction)
+		#expect(barButtonItem.primaryAction?.identifier == primaryAction.identifier)
+		#expect(barButtonItem.menu !== menu)
+		#expect(barButtonItem.menu?.identifier == menu.identifier)
+	}
+
 	/// `init(title:image:primaryAction:menu:configureHandler:)`：參數皆未指定時僅套用設定閉包。
 	@Test
 	func `barButtonItem init defaults to empty item`() {
