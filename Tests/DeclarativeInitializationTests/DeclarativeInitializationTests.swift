@@ -170,8 +170,8 @@ private final class DeclarativeInitializationTests {
 	@Test
 	func `barButtonItem init with title applies configuration`() {
 		let image: UIImage = .init()
-		let primaryAction: UIAction = .init { _ in }
-		let menu: UIMenu = .init(children: [])
+		let primaryAction: UIAction = .init(title: "Primary", identifier: .init("primary")) { _ in }
+		let menu: UIMenu = .init(title: "Menu", identifier: .init("menu"), children: [])
 
 		let barButtonItem: UIBarButtonItem = .init(
 			title: "Done",
@@ -184,8 +184,9 @@ private final class DeclarativeInitializationTests {
 
 		#expect(barButtonItem.title == "Done")
 		#expect(barButtonItem.image === image)
-		#expect(barButtonItem.primaryAction === primaryAction)
-		#expect(barButtonItem.menu === menu)
+		// `UIBarButtonItem` 會複製傳入的 `primaryAction`／`menu`，改比對 identifier 而非物件身分。
+		#expect(barButtonItem.primaryAction?.identifier == primaryAction.identifier)
+		#expect(barButtonItem.menu?.identifier == menu.identifier)
 		#expect(barButtonItem.tag == 11)
 	}
 
@@ -219,13 +220,13 @@ private final class DeclarativeInitializationTests {
 	/// `init(systemItem:primaryAction:menu:configureHandler:)`：系統項目建立、設定閉包套用到列按鈕。
 	@Test
 	func `barButtonItem init with systemItem applies configuration`() {
-		let menu: UIMenu = .init(children: [])
+		let menu: UIMenu = .init(title: "Menu", identifier: .init("menu"), children: [])
 
 		let barButtonItem: UIBarButtonItem = .init(systemItem: .add, menu: menu) { barButtonItem in
 			barButtonItem.tag = 13
 		}
 
-		#expect(barButtonItem.menu === menu)
+		#expect(barButtonItem.menu?.identifier == menu.identifier)
 		#expect(barButtonItem.tag == 13)
 	}
 
