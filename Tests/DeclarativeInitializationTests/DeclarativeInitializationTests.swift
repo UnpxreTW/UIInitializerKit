@@ -184,7 +184,7 @@ private final class DeclarativeInitializationTests {
 
 		#expect(barButtonItem.title == "Done")
 		#expect(barButtonItem.image === image)
-		// `UIBarButtonItem` 會複製傳入的 `primaryAction`／`menu`，改比對 identifier 而非物件身分。
+		// UIKit 不保留傳入的 `primaryAction`／`menu` 實例（見原生初始化器對照測試），改比對 identifier。
 		#expect(barButtonItem.primaryAction?.identifier == primaryAction.identifier)
 		#expect(barButtonItem.menu?.identifier == menu.identifier)
 		#expect(barButtonItem.tag == 11)
